@@ -2,187 +2,164 @@
 
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import useEmblaCarousel from "embla-carousel-react";
+import { useCallback, useEffect, useState } from "react";
+import "./HeroSection.css";
+
+const slides = [
+  {
+    image: "../images/slider-1.jpg",
+    title: "Powering Tomorrow",
+    subtitle: "With Clean Energy Solutions",
+    description:
+      "Leading the way in sustainable solar and wind energy installations",
+  },
+  {
+    image: "../images/slider-2.png",
+    title: "Sustainable Future",
+    subtitle: "Renewable Energy Excellence",
+    description: "Professional solutions for homes and businesses",
+  },
+  {
+    image: "../images/slider-3.jpg",
+    title: "Green Innovation",
+    subtitle: "Smart Energy Systems",
+    description: "Advanced technology for maximum energy efficiency",
+  },
+];
 
 const HeroSection = () => {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setCurrentSlide(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+
+    // Auto-play
+    const intervalId = setInterval(() => {
+      emblaApi.scrollNext();
+    }, 5000);
+
+    return () => {
+      emblaApi.off("select", onSelect);
+      clearInterval(intervalId);
+    };
+  }, [emblaApi, onSelect]);
+
   return (
-    <section className="relative overflow-hidden bg-primary-50">
-      <div className="container py-12 md:py-24">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="space-y-6"
-          >
-            <div className="space-y-2">
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-primary-600 font-medium"
-              >
-                Solar & wind energy
-              </motion.p>
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent"
-              >
-                Best solution of
-                <br />
-                Solar and wind
-                <br />
-                Energy
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="max-w-[600px] text-gray-500 md:text-xl"
-              >
-                Professionally explore high-payoff information through
-                sustainable installation.
-              </motion.p>
-            </div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
-              <Button
-                size="lg"
-                className="bg-primary-500 hover:bg-primary-600 text-white rounded-full"
-              >
-                Learn More
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="rounded-full border-primary-500 text-primary-500 hover:bg-primary-50"
-              >
-                Free Consultation
-              </Button>
-            </motion.div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative"
-          >
-            <div className="aspect-video rounded-lg bg-gradient-to-br from-primary-100 to-primary-50 shadow-2xl">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <p className="text-primary-500">Image Placeholder</p>
-              </div>
-            </div>
-            {/* Stats overlay */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              style={{
-                position: "absolute",
-                bottom: "-24px",
-                left: "50%",
-                x: "-50%",
-                width: "90%",
-                maxWidth: "400px"
-              }}
-              className="bg-white rounded-xl shadow-lg p-6 grid grid-cols-2 gap-8"
-            >
-              <div className="text-center">
-                <motion.p
-                  initial={{ scale: 0.8 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.8 }}
-                  className="text-2xl font-bold text-primary-500"
+    <section className="relative w-full h-screen overflow-hidden">
+      <div className="embla" ref={emblaRef}>
+        <div className="embla__container h-screen flex">
+          {slides.map((slide, index) => (
+            <div key={index} className="embla__slide relative flex-[0_0_100%]">
+              {/* Background Image */}
+              <motion.div
+                initial={{ scale: 1.1, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.8 }}
+                className="absolute inset-0"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${slide.image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+
+              {/* Content */}
+              <div className="relative container mx-auto h-full flex items-center justify-center text-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{
+                    opacity: currentSlide === index ? 1 : 0,
+                    y: currentSlide === index ? 0 : 20,
+                  }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="max-w-4xl px-4"
                 >
-                  126+
-                </motion.p>
-                <p className="text-sm text-gray-600">Energy Solutions</p>
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{
+                      opacity: currentSlide === index ? 1 : 0,
+                      y: currentSlide === index ? 0 : 20,
+                    }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    className="text-primary-200 font-medium mb-4"
+                  >
+                    {slide.subtitle}
+                  </motion.p>
+                  <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{
+                      opacity: currentSlide === index ? 1 : 0,
+                      y: currentSlide === index ? 0 : 20,
+                    }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    className="text-4xl md:text-6xl font-bold text-white mb-6"
+                  >
+                    {slide.title}
+                  </motion.h1>
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{
+                      opacity: currentSlide === index ? 1 : 0,
+                      y: currentSlide === index ? 0 : 20,
+                    }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    className="text-lg md:text-xl text-gray-100 mb-8"
+                  >
+                    {slide.description}
+                  </motion.p>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{
+                      opacity: currentSlide === index ? 1 : 0,
+                      y: currentSlide === index ? 0 : 20,
+                    }}
+                    transition={{ duration: 0.6, delay: 0.6 }}
+                    className="flex justify-center gap-4"
+                  >
+                    <Button
+                      size="lg"
+                      className="bg-primary-500 hover:bg-primary-600 text-white rounded-full"
+                    >
+                      Learn More
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="rounded-full border-white text-white hover:bg-white/10"
+                    >
+                      Free Consultation
+                    </Button>
+                  </motion.div>
+                </motion.div>
               </div>
-              <div className="text-center">
-                <motion.p
-                  initial={{ scale: 0.8 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.9 }}
-                  className="text-2xl font-bold text-primary-500"
-                >
-                  11k
-                </motion.p>
-                <p className="text-sm text-gray-600">Best Solutions</p>
-              </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Services Section */}
-      <div className="container py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <p className="text-primary-500 font-medium">Our Services</p>
-          <h2 className="text-2xl font-bold mt-2">
-            Making renewable energy a reality
-          </h2>
-        </motion.div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            {
-              title: "Assured Quality And Service",
-              description:
-                "The Community makes From small firm to innovation with distributed methods of empowerment.",
-              icon: "🌟",
-            },
-            {
-              title: "Solar Panel Installation",
-              description:
-                "Professional installation services with expert team and latest technology.",
-              icon: "🔧",
-            },
-            {
-              title: "Solar Panel Maintenance",
-              description:
-                "Regular maintenance and monitoring to ensure optimal performance.",
-              icon: "⚡",
-            },
-          ].map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              className="group p-6 text-center bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="text-4xl mb-4">{service.icon}</div>
-              <h3 className="font-semibold mb-2">{service.title}</h3>
-              <p className="text-gray-500 text-sm">{service.description}</p>
-              <Button
-                variant="ghost"
-                className="mt-4 text-primary-500 hover:text-primary-600 hover:bg-primary-50"
-              >
-                Learn more
-              </Button>
-            </motion.div>
-          ))}
-        </div>
+      {/* Slide indicators */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2">
+        {slides.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => emblaApi?.scrollTo(index)}
+            className={`w-2 h-2 rounded-full transition-all ${
+              currentSlide === index
+                ? "bg-white w-8"
+                : "bg-white/50 hover:bg-white/75"
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
       </div>
     </section>
   );
