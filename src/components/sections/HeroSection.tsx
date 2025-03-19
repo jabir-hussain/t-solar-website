@@ -116,29 +116,6 @@ const HeroSection = () => {
                   >
                     {slide.description}
                   </motion.p>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{
-                      opacity: currentSlide === index ? 1 : 0,
-                      y: currentSlide === index ? 0 : 20,
-                    }}
-                    transition={{ duration: 0.6, delay: 0.6 }}
-                    className="flex justify-center gap-4"
-                  >
-                    <Button
-                      size="lg"
-                      className="bg-primary-500 hover:bg-primary-600 text-white rounded-full"
-                    >
-                      Learn More
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="lg"
-                      className="rounded-full border-white text-white hover:bg-white/10"
-                    >
-                      Free Consultation
-                    </Button>
-                  </motion.div>
                 </motion.div>
               </div>
             </div>

@@ -47,7 +47,7 @@ const Navbar = () => {
                 <span className="mr-2">📞</span> (000) 000-2345
               </span>
               <span className="flex items-center">
-                <span className="mr-2">✉️</span> info@solarfly.com
+                <span className="mr-2">✉️</span> info@t-solar.com
               </span>
             </div>
             <div className="flex items-center space-x-4">
@@ -71,8 +71,8 @@ const Navbar = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex items-center"
           >
-            <Link href="/" className="text-xl font-bold text-primary-600">
-              Solarfly
+            <Link href="/" className="text-lg font-bold">
+              T-Solar
             </Link>
           </motion.div>
 

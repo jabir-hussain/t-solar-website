@@ -87,7 +87,7 @@ const Footer = () => {
         >
           {/* Company Info */}
           <motion.div variants={itemVariants} className="space-y-4">
-            <h2 className="text-xl font-bold text-white mb-4">Solarfly</h2>
+            <h2 className="text-xl font-bold text-white mb-4">T-Solar</h2>
             <p className="text-sm">
               Making renewable energy accessible and affordable for everyone.
               Together, let&apos;s build a sustainable future.
@@ -186,8 +186,8 @@ const Footer = () => {
                 transition={{ duration: 0.2 }}
                 className="flex items-center space-x-3"
               >
-                <span>✉️</span>
-                <span>info@solarfly.com</span>
+                <span className="mr-2">✉️</span>
+                <span>info@t-solar.com</span>
               </motion.li>
               <motion.li
                 whileHover={{ x: 5 }}
@@ -212,8 +212,8 @@ const Footer = () => {
             transition={{ duration: 0.5 }}
             className="flex flex-col md:flex-row justify-between items-center gap-4"
           >
-            <p className="text-sm">
-              &copy; {new Date().getFullYear()} Solarfly. All rights reserved.
+            <p className="text-sm text-gray-400">
+              &copy; {new Date().getFullYear()} T-Solar. All rights reserved.
             </p>
             <div className="flex space-x-6 text-sm">
               <Link href="/privacy" className="hover:text-primary-500">
